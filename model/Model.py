@@ -1,14 +1,17 @@
 from keras.models import Sequential
-from keras.layers import Dense,LSTM,Bidirectional
+from keras.layers import Dense, LSTM, CuDNNLSTM, Bidirectional
 from keras.layers import Activation
-from keras.callbacks import ReduceLROnPlateau,ModelCheckpoint
+import tensorflow as tf
 batch = 20
 
 class Model:
 
 	def train(self, X_train, X_test, y_train, y_test, num_classes):
 		model = Sequential()
-		model.add(Bidirectional(LSTM(128, input_shape=(batch, 1))))
+		if len(tf.config.list_physical_devices('GPU')) == 0:
+			model.add(Bidirectional(LSTM(128, input_shape=(batch, 1))))
+		else:
+			model.add(Bidirectional(CuDNNLSTM(128, input_shape=(batch, 1))))
 		model.add(Dense(num_classes))
 		model.add(Activation('softmax'))
 
