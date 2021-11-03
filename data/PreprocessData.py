@@ -46,5 +46,5 @@ class PreprocessData:
 		
 		print('Preprocessing complete.')
 
-		return X_train, X_test, y_train, y_test, intToChars, num_classes
+		return X_train, X_test, y_train, y_test, intToChars, charsToInt, num_classes
 
